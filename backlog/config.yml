@@ -1,0 +1,17 @@
+project_name: "TODO: Your Project Name"
+default_status: "To Do"
+statuses: ["To Do", "In Progress", "Done"]
+labels: ["backend", "frontend", "infra", "docs"]
+date_format: yyyy-mm-dd
+max_column_width: 20
+auto_open_browser: true
+default_port: 6420
+remote_operations: true
+auto_commit: false
+bypass_git_hooks: false
+task_prefix: "task"
+definition_of_done:
+  - "Linter passes"
+  - "Tests pass"
+  - "No secrets in code"
+  - "Docs updated if behavior changed"
