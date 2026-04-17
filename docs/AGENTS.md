@@ -37,11 +37,33 @@ Before making changes, read these files in order:
 
 ```
 your-project/
-├── .github/              # copilot-instructions.md + skills/
-├── docs/                 # AGENTS.md, LESSONS.md, architecture.md, design-decisions.md
-├── backlog/              # Task management (CLI only)
-├── tests/                # Tests + fixtures
-└── ...                   # Your project directories
+├── .github/                             # Agent configuration (auto-loaded)
+│   ├── copilot-instructions.md          # [1] Initializer prompt
+│   ├── skills/                          # [8] Domain skills
+│   │   ├── backlog/SKILL.md
+│   │   └── frontend-design/SKILL.md
+│   ├── agents/                          # [9] Evaluator agents
+│   │   ├── code-reviewer.agent.md
+│   │   ├── security-reviewer.agent.md
+│   │   └── architecture-reviewer.agent.md
+│   └── instincts/                       # [10] Learned patterns
+│       └── project.yaml
+├── docs/                                # Project knowledge base
+│   ├── AGENTS.md                        # [2] Repo map (this file)
+│   ├── LESSONS.md                       # [3] Progress file
+│   ├── architecture.md                  # [4] System spec
+│   ├── design-decisions.md              # [5] Decision log (append-only)
+│   ├── harness-engineering-design.md    # Harness design reference
+│   ├── specs/                           # [6] Epic / feature specs
+│   │   └── EPIC-TEMPLATE.md
+│   └── solutions/                       # [10] Compound knowledge
+├── backlog/                             # [7] Task backlog
+│   ├── config.yml
+│   └── tasks/
+├── src/                                 # Implementation code
+├── tests/                               # Tests + fixtures
+├── Makefile                             # Build harness
+└── README.md
 ```
 
 Full file-level layout → `architecture.md`.

@@ -4,16 +4,23 @@ A GitHub template repository for bootstrapping AI-native projects with a structu
 
 ## What's Included
 
-| File | Purpose |
+| File / Directory | Purpose |
 |------|---------|
-| `.github/copilot-instructions.md` | AI agent operating guide (autoloaded). 5-step working loop with compound step. |
-| `docs/AGENTS.md` | Repository map for AI agents (~100 lines, a map not a manual) |
-| `docs/LESSONS.md` | Accumulated knowledge and session history |
-| `docs/architecture.md` | Engineering specification skeleton |
-| `docs/design-decisions.md` | Decision tracking (open and resolved) |
+| `.github/copilot-instructions.md` | [1] AI agent operating guide (autoloaded). Session checklist, golden rules, working loop. |
+| `.github/skills/` | [8] Reusable AI agent skills (backlog, frontend-design) |
+| `.github/agents/` | [9] Evaluator agents (code-reviewer, security-reviewer, architecture-reviewer) |
+| `.github/instincts/project.yaml` | [10] Confidence-scored learned patterns |
+| `docs/AGENTS.md` | [2] Repository map for AI agents (~150 lines, a map not a manual) |
+| `docs/LESSONS.md` | [3] Accumulated knowledge and session history |
+| `docs/architecture.md` | [4] Engineering specification skeleton |
+| `docs/design-decisions.md` | [5] Decision tracking — append-only (open and resolved) |
+| `docs/specs/` | [6] Epic / feature specs (per-workstream scope) |
+| `docs/solutions/` | [10] Compound knowledge — problem → solution pairs |
+| `docs/harness-engineering-design.md` | Reference design document |
 | `backlog/config.yml` | Backlog.md CLI configuration |
+| `backlog/tasks/` | [7] Per-feature task files with acceptance criteria |
+| `src/` | Implementation code |
 | `tests/test_docs_freshness.py` | Doc-gardening: verifies AGENTS.md references exist on disk |
-| `.github/skills/` | Reusable AI agent skills (backlog, frontend-design) |
 | `Makefile` | Common commands (test, lint, format) |
 
 ## Usage

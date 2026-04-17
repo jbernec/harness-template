@@ -1,0 +1,13 @@
+# Learned Patterns & Instincts
+#
+# Confidence-scored patterns extracted from work sessions.
+# Mature patterns (confidence >= 0.8) can be promoted into full skills.
+#
+# Format:
+#   - pattern: "Short description of the pattern"
+#     confidence: 0.0-1.0
+#     context: "When this pattern applies"
+#     learned_from: "Session or task where this was discovered"
+#     date: YYYY-MM-DD
+
+patterns: []

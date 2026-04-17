@@ -14,7 +14,8 @@ When starting a new session or conversation in this repo, **immediately** read t
 ```
 1. docs/AGENTS.md        — repo map, build commands, conventions
 2. docs/LESSONS.md       — session history, pitfalls, accumulated knowledge
-3. backlog task list      — run `backlog task list --plain` to see current task states
+3. docs/architecture.md  — system-level spec
+4. backlog task list      — run `backlog task list --plain` to see current task states
 ```
 
 ---
