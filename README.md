@@ -7,7 +7,7 @@ A GitHub template repository for bootstrapping AI-native projects with a structu
 | File / Directory | Purpose |
 |------|---------|
 | `.github/copilot-instructions.md` | [1] AI agent operating guide (autoloaded). Session checklist, golden rules, working loop. |
-| `.github/skills/` | [8] Reusable AI agent skills (backlog, frontend-design) |
+| `.github/skills/` | [8] Reusable AI agent skills (backlog, blog-editor, frontend-design) |
 | `.github/agents/` | [9] Evaluator agents (code-reviewer, security-reviewer, architecture-reviewer) |
 | `.github/instincts/project.yaml` | [10] Confidence-scored learned patterns |
 | `docs/AGENTS.md` | [2] Repository map for AI agents (~150 lines, a map not a manual) |

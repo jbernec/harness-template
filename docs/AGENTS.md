@@ -41,6 +41,7 @@ your-project/
 │   ├── copilot-instructions.md          # [1] Initializer prompt
 │   ├── skills/                          # [8] Domain skills
 │   │   ├── backlog/SKILL.md
+│   │   ├── blog-editor/SKILL.md
 │   │   └── frontend-design/SKILL.md
 │   ├── agents/                          # [9] Evaluator agents
 │   │   ├── code-reviewer.agent.md
