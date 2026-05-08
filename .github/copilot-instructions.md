@@ -20,6 +20,20 @@ When starting a new session or conversation in this repo, **immediately** read t
 
 ---
 
+## Available Skills
+
+Skills live under `.github/skills/<name>/SKILL.md`. Read the SKILL.md for the
+full instructions before invoking. Trigger phrases are listed in each file's
+frontmatter `description`.
+
+| Skill | When to use |
+| --- | --- |
+| [backlog](.github/skills/backlog/SKILL.md) | Any task involving the Backlog.md CLI — create/edit/view tasks, acceptance criteria, status changes. |
+| [frontend-design](.github/skills/frontend-design/SKILL.md) | Building or styling web components, pages, dashboards, landing pages. |
+| [office-hours](.github/skills/office-hours/SKILL.md) | New product ideas, "is this worth building?", brainstorming, design-doc kickoff. Invoke proactively before writing code for a new concept. |
+
+---
+
 ## Project Identity
 
 **Project Name:** <!-- YOUR PROJECT NAME -->
