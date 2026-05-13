@@ -39,16 +39,16 @@ Before making changes, read these files in order:
 your-project/
 ├── .github/                             # Agent configuration (auto-loaded)
 │   ├── copilot-instructions.md          # [1] Initializer prompt
-│   ├── skills/                          # [8] Domain skills
-│   │   ├── backlog/SKILL.md
-│   │   ├── blog-editor/SKILL.md
-│   │   └── frontend-design/SKILL.md
+│   ├── skills/                          # [8] Domain skills (registry in copilot-instructions.md)
+│   │   └── <name>/SKILL.md
 │   ├── agents/                          # [9] Evaluator agents
 │   │   ├── code-reviewer.agent.md
 │   │   ├── security-reviewer.agent.md
 │   │   └── architecture-reviewer.agent.md
-│   └── instincts/                       # [10] Learned patterns
-│       └── project.yaml
+│   └── instincts/                       # [10] Learned patterns (managed by /learn, /instincts, /evolve)
+│       ├── project.yaml                 # confidence-scored instincts
+│       ├── observations.jsonl           # raw observations (created on demand)
+│       └── archive/                     # evolved instincts (created on demand)
 ├── docs/                                # Project knowledge base
 │   ├── AGENTS.md                        # [2] Repo map (this file)
 │   ├── LESSONS.md                       # [3] Progress file
