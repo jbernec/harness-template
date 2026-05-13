@@ -68,9 +68,18 @@ The target voice blends two influences: the reported clarity of a *New York Time
 - Not breathless or promotional. The NYT half kills the hype; the novelist half kills the boilerplate.
 
 ### Hard Rules (always flag or fix)
-- **No emdashes.** Use a period, comma, colon, or parentheses instead.
+- **No emdashes.** Pick the substitute that matches the original use:
+
+  | Original use | Replace with | Example |
+  |---|---|---|
+  | Parenthetical aside | Commas | `The retry logic, which was new, fanned out under load.` |
+  | Explanation or expansion | Colon | `The fix was simple: cap the fan-out at five.` |
+  | Emphasis or pivot | Period | `The fix was simple. Cap the fan-out at five.` |
+  | Supplementary detail | Parentheses | `The fix was simple (cap the fan-out at five).` |
+
+- **No bolded-prefix list items.** The pattern `* **Term**: description` is an AI-tic. Convert to prose, a proper subsection heading, or a plain list. Acceptable only when the bolded term is a literal command, flag, or identifier the reader will copy (e.g., `* **--retries**: number of retry attempts`).
 - **No hedging words.** Remove "just", "simply", "basically", "obviously", "really", "very", "quite", "arguably", "somewhat". If the sentence needs them to work, rewrite it.
-- **No filler intros.** Delete "In this blog post, we will...", "Let's dive in", "Without further ado", "In today's article". Start with the substance.
+- **No filler or self-referential intros.** Delete "In this blog post, we will...", "Let's dive in", "Without further ado", "In today's article", "This post explains...", "This article will show you...", "Below, we walk through...". Meta-commentary about the document is filler. Start with the substance.
 - **No exclamation marks.** Period.
 - **No AI slop.** Avoid: "revolutionize", "game-changer", "cutting-edge", "leverage" (as a verb), "utilize", "delve", "tapestry", "landscape", "paradigm shift", "unlock the power of", "at the end of the day", "it's worth noting that", "in the realm of", "harness", "seamlessly", "robust" (unless describing an actual system property), "empower", "synergy", "elevate". If you catch yourself reaching for a buzzword, use a plain word instead.
 - **No excessive adverbs.** If an adverb can be removed without changing meaning, remove it. "Extremely powerful" becomes "powerful". "Significantly improves" becomes "improves".
@@ -84,7 +93,16 @@ The target voice blends two influences: the reported clarity of a *New York Time
 - Vary sentence length. Follow a long sentence with a short one.
 - Use code snippets when they clarify. Do not use them as filler. If a post includes code, it should be explained, not just dumped.
 - Analogies are good when they are precise. Loose analogies confuse more than they help.
-- Use "you" to address the reader. Avoid "we" unless describing collaborative work you actually did.
+- **Pronoun usage by context:**
+
+  | Context | Pronoun | Example |
+  |---|---|---|
+  | Addressing the reader | `you` / `your` | `You can verify this by checking the trace.` |
+  | Personal rationale or experience | `I` | `I picked Postgres because the team already operates it.` |
+  | Collaborative work you actually did | `we` / `our` | `We shipped the rewrite over three sprints.` |
+  | Neutral system description | impersonal | `The router forwards requests to the nearest replica.` |
+
+  Do not use `we` as an editorial royal-we (`we will see that...`). That is filler intro phrasing.
 
 ## Editing Checklist
 
