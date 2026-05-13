@@ -1,12 +1,12 @@
 ---
 name: blog-editor
-description: "Write and edit technical blog posts about AI, agentic AI, multi-agent systems, data engineering, and cloud architecture. Use when user says 'write a blog post', 'draft a post', 'edit my post', 'review my draft', 'blog about', 'proofread', or 'editorial review'. Also triggers on 'outline to post', 'turn this into a blog', or 'polish this draft'."
+description: "Write or edit technical blog posts about AI, agentic systems, multi-agent workflows, LLMs, RAG, data engineering, or cloud architecture. Make sure to use this skill whenever the user asks for help producing or reviewing a long-form Markdown article — including phrases like 'write a blog post', 'draft a post', 'edit my post', 'review my draft', 'editorial review', 'proofread', 'polish this draft', 'turn this outline into a blog', or 'turn this README into a post'. Also trigger when the user does not say 'blog' explicitly but the deliverable is a public-audience long-form prose article (1000+ words) — for example 'write up what we just built for our engineering site' or 'expand these notes into an article'. Do NOT trigger for: short README updates, internal docs (use doc-coauthoring), tweets / LinkedIn posts / social copy, marketing landing pages, code comments, or commit messages."
 argument-hint: "Path to a markdown file, or a topic/outline for a new post"
 ---
 
 # Blog Editor
 
-A skill for writing new blog posts and editing existing drafts. Produces clear, conversational technical writing for a broad audience ranging from senior engineers to non-technical stakeholders.
+Two modes: draft a new post from an outline, or review an existing draft and produce an editorial markdown file alongside it.
 
 ## Modes
 
@@ -41,6 +41,31 @@ These rules apply to both writing and editing. When editing, flag violations wit
 - Direct. Say what you mean in the fewest words that preserve meaning.
 - Confident but honest. State what you know. Acknowledge what you do not.
 - Accessible. The audience spans senior engineers and non-technical stakeholders. Avoid assuming deep domain knowledge without a brief explainer.
+
+### Voice Models
+
+The target voice blends two influences: the reported clarity of a *New York Times* feature writer and the narrative craft of a novelist. Use these as concrete techniques, not as labels to imitate.
+
+**From the *New York Times* feature writer:**
+- **Lead with a concrete scene or finding, not a thesis.** Open on a specific person, system, incident, or surprising number. The general claim earns its place in paragraph two or three, after the reader is already in.
+- **Attribute claims.** When you make a non-obvious assertion, name the source: a paper, a benchmark, a deployment, a postmortem, your own experiment. Vague authority ("studies show", "experts agree") is forbidden.
+- **Translate jargon on first use.** Treat every technical term as if a thoughtful reader outside the field is looking over your shoulder. A one-clause translation is enough; do not over-explain.
+- **Use the nut graf.** Within the first three or four paragraphs, one paragraph should tell the reader what the piece is really about and why it matters. State the stakes plainly.
+- **Show the reporting.** Concrete numbers, dates, names, code paths, and quoted log lines do more work than adjectives. Replace "fast" with "120 ms p50".
+- **End with consequence, not summary.** The closing should answer "so what changes now?" — a decision, a prediction, a call to act, an open question worth holding.
+
+**From the novelist:**
+- **Scenes over summaries.** When you can dramatize a moment (a debugging session, a launch, a meeting where the design changed), do. Scene + reflection beats abstract claim + supporting bullet.
+- **Specific over general.** "A senior engineer pushed back" is fiction. "Maya, three weeks from her parental leave, said the retry logic would fan out under load" is craft. Reach for the telling detail.
+- **Rhythm.** Vary sentence length on purpose. A long, accumulating sentence that builds a picture, layers a qualifier, and reaches its point near the end can be followed by four words. Like that.
+- **Concrete sensory or operational detail.** Even in technical writing: the color of a dashboard graph at 3am, the shape of a flame chart, the exact error message. Detail is what makes prose feel alive instead of generated.
+- **A through-line.** A novelist always knows what the story is about underneath what it is about. Decide your through-line before you draft, and let every section pull on it. If a section does not, cut it.
+- **Restraint.** Novelists trust the reader to do work. Resist the urge to spell out every implication. Leave one beat unsaid.
+
+**What this voice is not:**
+- Not "literary" in the purple-prose sense. No metaphors stacked three deep. No words you would have to look up.
+- Not detached or institutional. The first person is welcome when you actually did the thing.
+- Not breathless or promotional. The NYT half kills the hype; the novelist half kills the boilerplate.
 
 ### Hard Rules (always flag or fix)
 - **No emdashes.** Use a period, comma, colon, or parentheses instead.
@@ -84,8 +109,20 @@ When editing a post, evaluate every dimension below. If a section has no issues,
 - **Clarity:** Quote confusing sentences and rewrite them.
 - **Jargon:** Flag unexplained technical terms. Remember the audience includes non-technical readers.
 
+### Voice Models
+
+Apply the seven dimensions defined in Voice and Style > Voice Models. For each, ask:
+
+- **Lead:** Concrete scene/finding/detail, or abstract thesis? Quote and rewrite if abstract.
+- **Nut graf:** Is there one within the first ~3 paragraphs? If missing, suggest one.
+- **Attribution:** Any non-obvious claim without a source? Vague authority ("studies show") is a hard violation.
+- **Concrete detail:** Adjective-heavy passages that could be a number, name, code path, or log line? Quote and propose the replacement.
+- **Through-line:** State the post's through-line in one sentence. Flag any section that doesn't pull on it.
+- **Rhythm:** Three+ consecutive sentences of similar length? Suggest where a short sentence or fragment lands.
+- **Ending:** Does it answer "so what changes now?", or just summarize? If the latter, propose a consequence-based ending.
+
 ### Blog-Specific
-- **Frontmatter:** Verify title, description, date, and any metadata are present and appropriate.
+- **Frontmatter:** Title, description, and date present? Flag generic titles, descriptions over ~160 chars, or missing dates.
 - **Introduction:** Does it hook the reader and state what they will learn? Does it avoid filler phrasing?
 - **Conclusion:** Does it provide closure? Does the reader know what to do next?
 - **Code-to-prose ratio:** Code blocks should not dominate. Each block needs surrounding explanation.
@@ -128,6 +165,10 @@ Use this structure when producing a review in Mode 2.
 ## Writing Quality
 
 {Grammar, tone, clarity, jargon.}
+
+## Voice Models
+
+{Lead, nut graf, attribution, concrete detail, through-line, rhythm, ending. Quote the original passage and propose a specific rewrite for each issue.}
 
 ## Blog-Specific
 
