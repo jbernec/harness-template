@@ -73,3 +73,44 @@ def test_agents_md_tree_paths_exist():
     assert not missing, "AGENTS.md tree references missing paths:\n" + "\n".join(
         f"  - {p}" for p in missing
     )
+
+
+def test_root_agents_md_stays_a_pointer():
+    """Root AGENTS.md must stay a thin pointer to the initializer prompt.
+
+    Operating content (rules, loops, checklists) lives ONLY in
+    .github/copilot-instructions.md. Two copies of the same rules = drift.
+    Copilot Code Review can't follow pointers, so content must stay there;
+    agents that read AGENTS.md can follow the pointer.
+    """
+    root_agents = ROOT / "AGENTS.md"
+    assert root_agents.exists(), "Root AGENTS.md entrypoint is missing"
+    text = root_agents.read_text()
+
+    assert ".github/copilot-instructions.md" in text, (
+        "Root AGENTS.md must point at .github/copilot-instructions.md"
+    )
+
+    forbidden_headings = [
+        "Golden Rules",
+        "Working Loop",
+        "Definition of Done",
+        "Session Start Checklist",
+        "Skills",
+    ]
+    offending = [
+        h
+        for h in forbidden_headings
+        if re.search(rf"^#+ .*{re.escape(h)}", text, re.MULTILINE)
+    ]
+    assert not offending, (
+        "Root AGENTS.md is growing operating content (headings: "
+        f"{offending}). Move it to .github/copilot-instructions.md and keep "
+        "this file a pointer."
+    )
+
+    line_count = len(text.splitlines())
+    assert line_count <= 40, (
+        f"Root AGENTS.md has {line_count} lines (cap 40). It must stay a thin "
+        "pointer — move content to .github/copilot-instructions.md."
+    )

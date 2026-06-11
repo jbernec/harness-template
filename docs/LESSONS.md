@@ -24,12 +24,13 @@ Do not duplicate them here — link to the ADR number if a session summary needs
 
 ## Session History
 
-<!-- Per-session summary. Format:
+<!-- Per-session summary. Format (### heading at line start when used for real;
+     indented here so the memory-status counter ignores the example):
 
-### Session N — YYYY-MM-DD
-- Accomplished: ...
-- Learned: ... (link new lesson files)
-- Status at end / next actions: ...
+       ### Session N — YYYY-MM-DD
+       - Accomplished: ...
+       - Learned: ... (link new lesson files)
+       - Status at end / next actions: ...
 
 Dream reports also land here — see .github/skills/dream/SKILL.md.
 -->
@@ -42,8 +43,10 @@ Dream reports also land here — see .github/skills/dream/SKILL.md.
 
 ## Memory Maintenance
 
-When the Lesson Index exceeds ~20 entries, you spot duplicates or
-contradictions, or ~10 sessions have passed since the last dream: run the
+Run `make memory-status` to check mechanically — it counts indexed lessons and
+sessions since the last dream report, and prints **DREAM DUE** when a threshold
+is crossed (lesson index > ~20 entries, or > ~10 sessions since the last dream;
+spotting duplicates/contradictions is also a trigger). When due, run the
 **dream** skill (`.github/skills/dream/SKILL.md`) to consolidate, prune, and
 promote. Dreams run on a branch and are merged after human review — memory is
 never destructively rewritten in place.

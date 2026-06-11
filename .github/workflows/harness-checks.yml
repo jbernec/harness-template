@@ -1,0 +1,29 @@
+name: harness-checks
+
+# Enforce harness invariants mechanically on every change:
+# doc-freshness (repo map matches disk), root-AGENTS.md drift guard,
+# and an informational memory-status report.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test runner
+        run: pip install pytest
+
+      - name: Harness invariant tests
+        run: python -m pytest tests/ -q
+
+      - name: Memory status (informational)
+        run: python scripts/memory_status.py

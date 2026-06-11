@@ -23,8 +23,12 @@ A GitHub template repository for bootstrapping AI-native projects with a structu
 | `backlog/config.yml` | Backlog.md CLI configuration |
 | `backlog/tasks/` | [7] Per-feature task files with acceptance criteria |
 | `src/` | Implementation code |
-| `tests/test_docs_freshness.py` | Doc-gardening: verifies AGENTS.md references exist on disk |
-| `Makefile` | Common commands (test, lint, format) |
+| `tests/test_docs_freshness.py` | Doc-gardening: repo-map references exist on disk; root AGENTS.md stays a pointer |
+| `scripts/memory_status.py` | Dream-due check — lesson count + sessions since last dream (`make memory-status`) |
+| `.github/workflows/harness-checks.yml` | CI: runs harness invariant tests + memory status on every push/PR |
+| `.github/pull_request_template.md` | Evaluator review checklist — enforces generator–evaluator separation per PR |
+| `Makefile` | Common commands (test, lint, format, memory-status) |
+| `LICENSE` | MIT |
 
 ## Usage
 

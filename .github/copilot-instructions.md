@@ -13,9 +13,11 @@ When starting a new session or conversation in this repo, **immediately** read t
 
 ```
 1. docs/AGENTS.md        — repo map, build commands, conventions
-2. docs/LESSONS.md       — session history, pitfalls, accumulated knowledge
+2. docs/LESSONS.md       — lesson index, session history, accumulated knowledge
 3. docs/architecture.md  — system-level spec
 4. backlog task list      — run `backlog task list --plain` to see current task states
+5. make memory-status     — if it prints DREAM DUE, tell the user a memory
+                            curation session is due (see the dream skill)
 ```
 
 ---
@@ -94,9 +96,10 @@ A change is done only when:
 
 - Acceptance criteria (from backlog task or the request) are satisfied
 - Linter passes
-- Tests pass
+- Tests pass (`make test` — includes harness invariant checks)
 - No secrets added (keys/tokens/passwords/connection strings)
 - Documentation updated if behavior/architecture changed
+- Evaluator review completed per `.github/pull_request_template.md` — code-reviewer always; security-reviewer / architecture-reviewer when their triggers apply. The generator must not be the only judge of its own work.
 
 ---
 

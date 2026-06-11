@@ -38,8 +38,12 @@ Before making changes, read these files in order:
 ```
 your-project/
 ├── AGENTS.md                            # Root entrypoint (Claude Code/Codex autoload)
+├── LICENSE                              # MIT
 ├── .github/                             # Agent configuration (auto-loaded)
 │   ├── copilot-instructions.md          # [1] Initializer prompt
+│   ├── pull_request_template.md         # [9] Evaluator review checklist per PR
+│   ├── workflows/                       # CI — enforce invariants mechanically
+│   │   └── harness-checks.yml           #     doc-freshness + drift guard + memory status
 │   ├── skills/                          # [8] Domain skills
 │   │   ├── backlog/SKILL.md
 │   │   ├── blog-editor/SKILL.md
@@ -66,6 +70,8 @@ your-project/
 ├── backlog/                             # [7] Task backlog
 │   ├── config.yml
 │   └── tasks/
+├── scripts/                             # Harness utilities
+│   └── memory_status.py                 # Dream-due check (make memory-status)
 ├── src/                                 # Implementation code
 ├── tests/                               # Tests + fixtures
 ├── Makefile                             # Build harness

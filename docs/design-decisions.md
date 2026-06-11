@@ -29,6 +29,19 @@
 - *Letting work sessions curate as they go* — curation competes for context with the actual task; the Dreams model deliberately separates work sessions from curation sessions.
 - *Depending on the hosted Dreams API directly* — it operates on Managed Agents memory stores, not repo files; it's a gated research preview. The skill documents the API path for projects that do run on Managed Agents.
 
+### 2. Mechanical enforcement of harness invariants (2026-06-11)
+
+**Context:** The template's own philosophy says "enforce invariants mechanically," but several invariants were prose-only: tests ran only if someone invoked pytest, `make test` was a stub, dream cadence lived in convention, root `AGENTS.md` staying a pointer was unguarded, and evaluator review was unwired.
+
+**Decision:** Add a CI workflow (`.github/workflows/harness-checks.yml`) running the harness tests on every push/PR; wire `make test` to those tests; add `scripts/memory_status.py` + `make memory-status` (in the Session Start Checklist) to flag DREAM DUE from lesson count and sessions-since-last-dream; add a drift-guard test asserting root `AGENTS.md` stays a thin pointer; wire evaluator agents into a PR template checklist referenced by the Definition of Done.
+
+**Rationale:** A convention that nothing checks erodes; each item converts a written rule into a check that fails loudly (CI/tests) or surfaces automatically (memory-status, PR template).
+
+**Alternatives rejected:**
+- *Failing CI when a dream is due* — cadence is advisory, not a correctness invariant; failing builds on it trains people to ignore CI. Memory status is informational in CI, actionable at session start.
+- *A scheduled (cron) dream* — wrong default for a template; condition-based triggers self-adjust to project velocity (see ADR #1).
+- *Enforcing evaluator runs via required CI checks* — too heavy for a template; the PR template checklist keeps the separation visible without mandating tooling.
+
 ---
 
 ## Open Questions
