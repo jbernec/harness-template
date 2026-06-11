@@ -8,7 +8,8 @@ A GitHub template repository for bootstrapping AI-native projects with a structu
 |------|---------|
 | `AGENTS.md` | Root entrypoint autoloaded by Claude Code/Codex — points at the initializer prompt |
 | `.github/copilot-instructions.md` | [1] AI agent operating guide (autoloaded by Copilot). Session checklist, golden rules, working loop. |
-| `.github/skills/` | [8] Reusable AI agent skills (backlog, blog-editor, frontend-design, office-hours) |
+| `.github/skills/` | [8] Reusable AI agent skills (bootstrap, backlog, blog-editor, frontend-design, office-hours) |
+| `.github/skills/bootstrap/` | Apply the template to a new project — interview, fill placeholders, wire commands, seed backlog |
 | `.github/skills/dream/` | [11] Memory curation — Dreams-style dedupe/prune/promote pass over repo memory |
 | `.github/agents/` | [9] Evaluator agents (code-reviewer, security-reviewer, architecture-reviewer) |
 | `.github/instincts/project.yaml` | [10] Confidence-scored learned patterns |
@@ -18,7 +19,7 @@ A GitHub template repository for bootstrapping AI-native projects with a structu
 | `docs/architecture.md` | [4] Engineering specification skeleton |
 | `docs/design-decisions.md` | [5] Decision tracking — append-only (open and resolved) |
 | `docs/specs/` | [6] Epic / feature specs (per-workstream scope) |
-| `docs/solutions/` | [10] Compound knowledge — problem → solution pairs |
+| `docs/solutions/` | [10] Compound knowledge — problem → solution pairs (one per file, see TEMPLATE.md) |
 | `docs/harness-engineering-design.md` | Reference design document |
 | `backlog/config.yml` | Backlog.md CLI configuration |
 | `backlog/tasks/` | [7] Per-feature task files with acceptance criteria |
@@ -48,6 +49,14 @@ rm -rf .git && git init
 ```
 
 ## First Steps After Cloning
+
+Start an agent session and say **"bootstrap this project"** — the
+[bootstrap skill](.github/skills/bootstrap/SKILL.md) interviews you once
+(name, stack, commands, golden rules, scope), fills every placeholder, prunes
+irrelevant carry-along skills, seeds the backlog, and verifies with
+`make test`.
+
+Manual path, if you prefer:
 
 1. Update `<!-- YOUR PROJECT NAME -->` placeholders in all docs
 2. Update `backlog/config.yml` with your project name

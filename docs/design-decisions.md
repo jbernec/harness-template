@@ -42,6 +42,19 @@
 - *A scheduled (cron) dream* — wrong default for a template; condition-based triggers self-adjust to project velocity (see ADR #1).
 - *Enforcing evaluator runs via required CI checks* — too heavy for a template; the PR template checklist keeps the separation visible without mandating tooling.
 
+### 3. Bootstrap skill, enforced registries, no generic skills (2026-06-11)
+
+**Context:** Applying the template to a new project was a manual README checklist — backwards for an AI-native template. The skill/agent registries in `copilot-instructions.md` were unchecked against disk (and had already drifted: `blog-editor` existed on disk but was unregistered). The question of which skills belong in a *template* needed a recorded answer.
+
+**Decision:** Add a `bootstrap` skill (interview once → fill placeholders, wire commands, prune carry-along skills, seed backlog, verify with `make test`). Add a registry test asserting skills and agents on disk match the registries in both directions. Add `docs/solutions/TEMPLATE.md` to match the lessons template. **Cap the baseline skill set at harness meta-skills** (bootstrap, backlog, dream) plus the owner's carry-along domain skills; project-specific skills are earned through the dream skill's instinct → skill promotion path.
+
+**Rationale:** Skills exist for progressive disclosure of *domain* knowledge; every registered description sits in context permanently, so sprawl dilutes trigger matching. Generic engineering practice (testing, debugging, refactoring) belongs in the working loop and golden rules, not skills.
+
+**Alternatives rejected:**
+- *Generic skills (testing/debugging/docs-writing)* — duplicate the working loop, pollute the registry, and weaken description-based skill matching in both Claude Code and Copilot Agent Skills.
+- *A placeholder-check CI test* — the template itself legitimately contains placeholders, so CI would fail on the template or need a self-detection hack; detection lives in the bootstrap skill instead.
+- *Leaving registries convention-only* — they had already drifted once; same failure class the repo-map test guards.
+
 ---
 
 ## Open Questions

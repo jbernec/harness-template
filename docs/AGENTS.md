@@ -45,6 +45,7 @@ your-project/
 │   ├── workflows/                       # CI — enforce invariants mechanically
 │   │   └── harness-checks.yml           #     doc-freshness + drift guard + memory status
 │   ├── skills/                          # [8] Domain skills
+│   │   ├── bootstrap/SKILL.md           # Apply template to a new project
 │   │   ├── backlog/SKILL.md
 │   │   ├── blog-editor/SKILL.md
 │   │   ├── frontend-design/SKILL.md
@@ -67,6 +68,7 @@ your-project/
 │   ├── specs/                           # [6] Epic / feature specs
 │   │   └── EPIC-TEMPLATE.md
 │   └── solutions/                       # [10] Compound knowledge
+│       └── TEMPLATE.md
 ├── backlog/                             # [7] Task backlog
 │   ├── config.yml
 │   └── tasks/

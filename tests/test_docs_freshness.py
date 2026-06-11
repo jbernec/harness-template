@@ -114,3 +114,40 @@ def test_root_agents_md_stays_a_pointer():
         f"Root AGENTS.md has {line_count} lines (cap 40). It must stay a thin "
         "pointer — move content to .github/copilot-instructions.md."
     )
+
+
+def test_skill_and_agent_registries_match_disk():
+    """Registries in copilot-instructions.md must match .github/ on disk.
+
+    Both directions: every skill/agent on disk is registered (else agents
+    never discover it), and every registered skill/agent exists on disk
+    (else agents chase dead references).
+    """
+    instructions = (ROOT / ".github" / "copilot-instructions.md").read_text()
+
+    skills_on_disk = {
+        p.parent.name for p in (ROOT / ".github" / "skills").glob("*/SKILL.md")
+    }
+    skills_registered = set(
+        re.findall(r"\.github/skills/([a-zA-Z0-9_-]+)/SKILL\.md", instructions)
+    )
+    assert skills_on_disk == skills_registered, (
+        f"Skill registry drift — on disk but unregistered: "
+        f"{sorted(skills_on_disk - skills_registered)}; "
+        f"registered but missing on disk: "
+        f"{sorted(skills_registered - skills_on_disk)}"
+    )
+
+    agents_on_disk = {
+        p.name.removesuffix(".agent.md")
+        for p in (ROOT / ".github" / "agents").glob("*.agent.md")
+    }
+    agents_registered = set(
+        re.findall(r"\.github/agents/([a-zA-Z0-9_-]+)\.agent\.md", instructions)
+    )
+    assert agents_on_disk == agents_registered, (
+        f"Agent registry drift — on disk but unregistered: "
+        f"{sorted(agents_on_disk - agents_registered)}; "
+        f"registered but missing on disk: "
+        f"{sorted(agents_registered - agents_on_disk)}"
+    )

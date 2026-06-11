@@ -30,10 +30,24 @@ frontmatter `description`.
 
 | Skill | When to use |
 | --- | --- |
+| [bootstrap](.github/skills/bootstrap/SKILL.md) | First session in a fresh clone of this template — fill placeholders, wire build commands, seed architecture and backlog. Invoke on "set up this project" / "apply the template". |
 | [backlog](.github/skills/backlog/SKILL.md) | Any task involving the Backlog.md CLI — create/edit/view tasks, acceptance criteria, status changes. |
+| [blog-editor](.github/skills/blog-editor/SKILL.md) | Writing, editing, or reviewing blog posts and long-form prose. |
 | [frontend-design](.github/skills/frontend-design/SKILL.md) | Building or styling web components, pages, dashboards, landing pages. |
 | [office-hours](.github/skills/office-hours/SKILL.md) | New product ideas, "is this worth building?", brainstorming, design-doc kickoff. Invoke proactively before writing code for a new concept. |
 | [dream](.github/skills/dream/SKILL.md) | Memory curation — consolidate/dedupe lessons, solutions, instincts. Run when the lesson index exceeds ~20 entries, on duplicate/contradictory lessons, or every ~10 sessions. |
+
+## Evaluator Agents
+
+Reviewer personas live under `.github/agents/`. Run them against diffs per the
+PR template (`.github/pull_request_template.md`) — the generator must not be
+the only judge of its own work.
+
+| Agent | When to run |
+| --- | --- |
+| [code-reviewer](.github/agents/code-reviewer.agent.md) | Every diff. |
+| [security-reviewer](.github/agents/security-reviewer.agent.md) | Diffs touching auth, input handling, secrets, dependencies, or data exposure. |
+| [architecture-reviewer](.github/agents/architecture-reviewer.agent.md) | Diffs changing boundaries, layers, data flow, or public interfaces. |
 
 ---
 
