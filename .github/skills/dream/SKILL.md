@@ -137,6 +137,13 @@ discards it, exactly as the Dreams API leaves the output store for review.
 
 ## Pitfalls
 
+- **Don't create archive/backup folders for pruned memory.** Git history *is*
+  the backup (the local equivalent of the Dreams API's immutable memory
+  versions): the dream branch + review gate preserve the pre-dream state, and
+  the Dream Report is the human-readable index of what was removed and why.
+  Dead files left under `docs/` stay visible to glob/grep, pollute recall, and
+  let superseded values get resurrected — the live memory surface must contain
+  only live memory.
 - **Don't curate the decision log.** It is append-only; pruning "stale" ADRs
   destroys the negative constraints that stop agents re-proposing rejected
   designs.
