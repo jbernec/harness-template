@@ -1,13 +1,21 @@
 # Learned Patterns & Instincts
 #
-# Confidence-scored patterns extracted from work sessions.
-# Mature patterns (confidence >= 0.8) can be promoted into full skills.
+# Confidence-scored behaviors extracted from work sessions by /learn.
+# Mature instincts (confidence > 0.8 with 5+ observations) are promoted
+# into permanent skills under .github/skills/learned-*/ by /evolve.
 #
-# Format:
-#   - pattern: "Short description of the pattern"
-#     confidence: 0.0-1.0
-#     context: "When this pattern applies"
-#     learned_from: "Session or task where this was discovered"
-#     date: YYYY-MM-DD
+# Schema:
+#   - id: kebab-case-unique-id
+#     trigger: "when [specific situation]"
+#     behavior: "do [specific action]"
+#     confidence: 0.0-1.0          # starts 0.5, +0.1 per observation, cap 0.95
+#     domain: code-style|testing|architecture|error-handling|workflow|tooling
+#     observations: 1
+#     first_seen: YYYY-MM-DD
+#     last_seen: YYYY-MM-DD
+#     evidence:
+#       - "commit abc123: <what was observed>"
+#
+# Constraints: max 50 active instincts; below confidence 0.1 are removed.
 
-patterns: []
+instincts: []

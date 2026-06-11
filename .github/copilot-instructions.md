@@ -12,13 +12,18 @@ It defines **how to operate**, **what to read first**, and **how to keep repo do
 When starting a new session or conversation in this repo, **immediately** read these files before doing any work:
 
 ```
-1. docs/AGENTS.md        — repo map, build commands, conventions
-2. docs/LESSONS.md       — lesson index, session history, accumulated knowledge
-3. docs/architecture.md  — system-level spec
-4. backlog task list      — run `backlog task list --plain` to see current task states
-5. make memory-status     — if it prints DREAM DUE, tell the user a memory
-                            curation session is due (see the dream skill)
+1. docs/AGENTS.md              — repo map, build commands, conventions
+2. docs/LESSONS.md             — lesson index, session history, accumulated knowledge
+3. docs/architecture.md        — system-level spec
+4. docs/design-decisions.md    — decision log (append-only, open + resolved)
+5. .github/instincts/project.yaml — confidence-scored learned patterns; check before solving familiar problems
+6. backlog task list           — run `backlog task list --plain` to see current task states
+7. make memory-status          — if it prints DREAM DUE, tell the user a memory
+                                 curation session is due (see the dream skill)
 ```
+
+When picking up a backlog task, also read the matching epic / feature spec under `docs/specs/` if one exists.
+For background on *why* the harness is structured this way, see `docs/harness-engineering-design.md` (reference reading, not session-start required).
 
 ---
 
@@ -32,22 +37,44 @@ frontmatter `description`.
 | --- | --- |
 | [bootstrap](.github/skills/bootstrap/SKILL.md) | First session in a fresh clone of this template — fill placeholders, wire build commands, seed architecture and backlog. Invoke on "set up this project" / "apply the template". |
 | [backlog](.github/skills/backlog/SKILL.md) | Any task involving the Backlog.md CLI — create/edit/view tasks, acceptance criteria, status changes. |
-| [blog-editor](.github/skills/blog-editor/SKILL.md) | Writing, editing, or reviewing blog posts and long-form prose. |
+| [blog-editor](.github/skills/blog-editor/SKILL.md) | Writing or editing technical blog posts on AI, multi-agent systems, data engineering, cloud architecture. Triggers: "write a blog post", "edit my post", "polish this draft". |
+| [claude-api](.github/skills/claude-api/SKILL.md) | Building, debugging, optimizing Claude/Anthropic SDK apps (prompt caching, tool use, Managed Agents, model migration 4.5→4.6→4.7). Skip for non-Anthropic SDKs. |
+| [codebase-to-course](.github/skills/codebase-to-course/SKILL.md) | Turn any codebase into an interactive single-page HTML course (scroll-snap modules, code↔English translations, animated data flows, quizzes). Triggers: "turn this into a course", "explain this codebase interactively", "teach me how this code works". |
+| [doc-coauthoring](.github/skills/doc-coauthoring/SKILL.md) | Structured Context → Refinement → Reader-Testing workflow for writing PRDs, design docs, decision docs, RFCs, technical specs. |
+| [docs-writer](.github/skills/docs-writer/SKILL.md) | Repo-aware documentation maintenance, freshness checks, link/style validation. **Upstream coupling:** references `tools/registry/count-manifest.json`, `npm run lint:md/links`, `agent-output/`, and `azure-artifacts.instructions.md` — not present here; treat those as illustrative. |
+| [drawio](.github/skills/drawio/SKILL.md) | Azure architecture diagrams via the `simonkurtz-MSFT/drawio-mcp-server` MCP server (full Azure icon library, batch + transactional modes). **Requires** `.vscode/mcp.json` configured for that server + several `tools/scripts/*.{py,mjs}` helpers — install before relying on this skill. For general (non-Azure) diagrams, use `mermaid`. |
+| [autoresearch](.github/skills/autoresearch/SKILL.md) | Autonomous iterative experiment loop for tasks with a measurable metric (perf, latency, bundle size, test pass rate). Defines goal + metric + scope, then loops change → test → measure → keep/discard. Skip for one-shot fixes. |
+| [docx](.github/skills/docx/SKILL.md) | Creating, reading, editing Word `.docx` files — reports, memos, letters, templates with formatting, TOCs, headings. |
+| [evolve](.github/skills/evolve/SKILL.md) | Promote mature instincts (confidence > 0.8) from `.github/instincts/project.yaml` into full Copilot skills under `.github/skills/learned-*/`. Run after `/learn` and `/instincts` show patterns are stable. |
+| [dream](.github/skills/dream/SKILL.md) | Memory curation — consolidate/dedupe lessons, solutions, instincts; resolve contradictions; prune stale entries. Run when the lesson index exceeds ~20 entries, on duplicate/contradictory lessons, or every ~10 sessions. Subsumes learn/evolve promotion as part of a full curation pass. |
 | [frontend-design](.github/skills/frontend-design/SKILL.md) | Building or styling web components, pages, dashboards, landing pages. |
+| [github-operations](.github/skills/github-operations/SKILL.md) | Branch naming, commits, PRs, `gh` CLI, GitHub Actions patterns. **Note:** references `tools/scripts/validate-branch-*.sh` validators not present here — the conventions still apply, only the auto-validators are missing. |
+| [instincts](.github/skills/instincts/SKILL.md) | Show all learned instincts for this project with confidence scores, grouped by domain. Read-only dashboard over `.github/instincts/project.yaml`. |
+| [karpathy-guidelines](.github/skills/karpathy-guidelines/SKILL.md) | Behavioral guardrails for any coding task — Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution. Apply automatically when writing, reviewing, or refactoring code. |
+| [learn](.github/skills/learn/SKILL.md) | Extract reusable patterns from recent work into `.github/instincts/project.yaml`. Run after completing features, fixing bugs, or at session end to capture what the project learned. |
+| [mcp-builder](.github/skills/mcp-builder/SKILL.md) | Building high-quality MCP (Model Context Protocol) servers in Python (FastMCP) or TypeScript SDK that integrate external APIs/services. |
+| [mermaid](.github/skills/mermaid/SKILL.md) | Inline Mermaid diagrams in Markdown — flowcharts, sequence, class, ER, state diagrams. Zero dependencies. |
+| [microsoft-docs](.github/skills/microsoft-docs/SKILL.md) | Fetch and ground answers in Microsoft Learn / Azure documentation. Use whenever an answer should cite official MS docs. |
+| [observe](.github/skills/observe/SKILL.md) | Start a focused observation session to analyze a specific domain or file pattern. Records findings to `.atv/observations.jsonl` for future `/learn` runs. |
 | [office-hours](.github/skills/office-hours/SKILL.md) | New product ideas, "is this worth building?", brainstorming, design-doc kickoff. Invoke proactively before writing code for a new concept. |
-| [dream](.github/skills/dream/SKILL.md) | Memory curation — consolidate/dedupe lessons, solutions, instincts. Run when the lesson index exceeds ~20 entries, on duplicate/contradictory lessons, or every ~10 sessions. |
+| [pdf](.github/skills/pdf/SKILL.md) | Anything PDF — reading, extracting text/tables, merging, splitting, watermarks, forms, encryption, OCR, image extraction. |
+| [pptx](.github/skills/pptx/SKILL.md) | Creating, reading, editing PowerPoint `.pptx` decks — slides, layouts, speaker notes, templates. |
+| [skill-creator](.github/skills/skill-creator/SKILL.md) | Creating new skills, editing/improving existing ones, running evals, optimizing skill descriptions for better triggering. Use when iterating on anything in `.github/skills/`. |
+| [unslop](.github/skills/unslop/SKILL.md) | Unified de-slop pass — code simplification + comment rot detection + design slop check. Run after completing a feature or before opening a PR to strip AI-generated generic patterns. |
+| [webapp-testing](.github/skills/webapp-testing/SKILL.md) | Playwright-based testing of local web apps — verifying frontend, debugging UI, screenshots, browser logs. |
+| [xlsx](.github/skills/xlsx/SKILL.md) | Spreadsheet work — `.xlsx`, `.xlsm`, `.csv`, `.tsv` reading/editing, formulas, charts, cleaning messy tabular data. |
 
-## Evaluator Agents
+---
 
-Reviewer personas live under `.github/agents/`. Run them against diffs per the
-PR template (`.github/pull_request_template.md`) — the generator must not be
-the only judge of its own work.
+## Available Evaluator Agents
 
-| Agent | When to run |
+Evaluator agents live under `.github/agents/<name>.agent.md`. Invoke the relevant agent(s) **before declaring work done** for any non-trivial change, and check them off per the PR template (`.github/pull_request_template.md`). They are read-only reviewers, not implementers — surface their findings, then fix or justify each one. The generator must not be the only judge of its own work.
+
+| Agent | Invoke when |
 | --- | --- |
-| [code-reviewer](.github/agents/code-reviewer.agent.md) | Every diff. |
-| [security-reviewer](.github/agents/security-reviewer.agent.md) | Diffs touching auth, input handling, secrets, dependencies, or data exposure. |
-| [architecture-reviewer](.github/agents/architecture-reviewer.agent.md) | Diffs changing boundaries, layers, data flow, or public interfaces. |
+| [code-reviewer](.github/agents/code-reviewer.agent.md) | Any code change. Reviews quality, maintainability, correctness. |
+| [security-reviewer](.github/agents/security-reviewer.agent.md) | Any change touching auth, secrets, input handling, network calls, file I/O, deserialization, or dependencies. |
+| [architecture-reviewer](.github/agents/architecture-reviewer.agent.md) | Changes that cross module boundaries, introduce a new layer, or alter data flow. |
 
 ---
 
@@ -81,11 +108,12 @@ When in doubt, prefer **failing fast with a descriptive error** over silent fall
    - Reuse existing patterns.
 
 3) **Validate**
-   Run in this order:
+   Run in this order (commands are defined in the `Makefile`):
 
    ```bash
-   # Add your lint command here
-   # Add your test command here
+   make lint                              # static analysis
+   make test                              # test suite
+   pytest tests/test_docs_freshness.py    # doc-gardening: verifies AGENTS.md references exist on disk
    ```
 
 4) **Document (only if needed)**
@@ -93,8 +121,10 @@ When in doubt, prefer **failing fast with a descriptive error** over silent fall
 
 5) **Compound (after meaningful work cycles)**
    Before ending a session or closing a task, answer these questions:
-   - **What worked?** Record the pattern so it can be reused.
+   - **Has this problem been solved here before?** Check `docs/solutions/` first. If yes, link the existing solution doc instead of duplicating.
+   - **What worked?** Record the pattern so it can be reused. If the pattern is novel and reusable, add a problem→solution doc to `docs/solutions/` (copy `docs/solutions/TEMPLATE.md`; low-confidence patterns can land in `.github/instincts/project.yaml` instead, then graduate to a skill or solution doc once confidence ≥ 0.8).
    - **What broke or was harder than expected?** Add a lesson file under `docs/lessons/` (one lesson per file — copy `docs/lessons/TEMPLATE.md`) and index it in `docs/LESSONS.md`.
+   - **Was a non-trivial design choice made?** Append it to `docs/design-decisions.md` with context, options considered, and rationale.
    - **Would the system catch this automatically next time?** If not, add a test, a linter rule, or a convention to `docs/AGENTS.md`. Turning a lesson into a mechanical check is the highest-value compound action.
 
    Prioritize findings: **P1** (must fix now), **P2** (should fix soon), **P3** (nice to have).
@@ -155,6 +185,21 @@ Keep docs accurate without creating duplication drift.
 ### Update `docs/architecture.md` when
 - Architecture changes (new layers, changed data flow)
 - Major design decisions are made or revised
+
+### Update `docs/design-decisions.md` when (append-only)
+- A non-trivial design choice is made (record context, options considered, decision, rationale)
+- A previously open decision is resolved — add a new entry; do not edit history
+- A prior decision is reversed — add a new entry citing the original
+
+### Update `docs/specs/` when
+- An epic or feature scope changes — edit the matching spec
+- A new workstream begins — copy `docs/specs/EPIC-TEMPLATE.md` and fill it in before starting implementation
+
+### Update `docs/solutions/` when
+- A novel, reusable problem→solution pair has been demonstrated to work — write it up so the next session finds it
+
+### Update `.github/instincts/project.yaml` when
+- A pattern is emerging but not yet proven (low confidence). Promote to a skill or `docs/solutions/` entry when confidence ≥ 0.8
 
 ---
 

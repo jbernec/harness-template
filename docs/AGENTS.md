@@ -43,20 +43,17 @@ your-project/
 │   ├── copilot-instructions.md          # [1] Initializer prompt
 │   ├── pull_request_template.md         # [9] Evaluator review checklist per PR
 │   ├── workflows/                       # CI — enforce invariants mechanically
-│   │   └── harness-checks.yml           #     doc-freshness + drift guard + memory status
-│   ├── skills/                          # [8] Domain skills
+│   │   └── harness-checks.yml           #     doc-freshness + drift guard + registries + memory status
+│   ├── skills/                          # [8] Domain skills (full registry in copilot-instructions.md)
 │   │   ├── bootstrap/SKILL.md           # Apply template to a new project
-│   │   ├── backlog/SKILL.md
-│   │   ├── blog-editor/SKILL.md
-│   │   ├── frontend-design/SKILL.md
-│   │   ├── office-hours/SKILL.md
-│   │   └── dream/SKILL.md               # [11] Memory curation
+│   │   ├── dream/SKILL.md               # [11] Memory curation
+│   │   └── ...
 │   ├── agents/                          # [9] Evaluator agents
 │   │   ├── code-reviewer.agent.md
 │   │   ├── security-reviewer.agent.md
 │   │   └── architecture-reviewer.agent.md
-│   └── instincts/                       # [10] Learned patterns
-│       └── project.yaml
+│   └── instincts/                       # [10] Learned patterns (managed by /learn, /instincts, /evolve)
+│       └── project.yaml                 # confidence-scored instincts (observations.jsonl + archive/ created on demand)
 ├── docs/                                # Project knowledge base
 │   ├── AGENTS.md                        # [2] Repo map (this file)
 │   ├── LESSONS.md                       # [3] Memory index + session history

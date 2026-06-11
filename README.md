@@ -2,34 +2,36 @@
 
 A GitHub template repository for bootstrapping AI-native projects with a structured engineering harness.
 
+Bracketed role numbers (`[1]`–`[10]`) below map to the harness roles defined in [docs/harness-engineering-design.md](docs/harness-engineering-design.md).
+
 ## What's Included
 
 | File / Directory | Purpose |
 |------|---------|
-| `AGENTS.md` | Root entrypoint autoloaded by Claude Code/Codex — points at the initializer prompt |
-| `.github/copilot-instructions.md` | [1] AI agent operating guide (autoloaded by Copilot). Session checklist, golden rules, working loop. |
-| `.github/skills/` | [8] Reusable AI agent skills (bootstrap, backlog, blog-editor, frontend-design, office-hours) |
-| `.github/skills/bootstrap/` | Apply the template to a new project — interview, fill placeholders, wire commands, seed backlog |
-| `.github/skills/dream/` | [11] Memory curation — Dreams-style dedupe/prune/promote pass over repo memory |
-| `.github/agents/` | [9] Evaluator agents (code-reviewer, security-reviewer, architecture-reviewer) |
-| `.github/instincts/project.yaml` | [10] Confidence-scored learned patterns |
-| `docs/AGENTS.md` | [2] Repository map for AI agents (~150 lines, a map not a manual) |
-| `docs/LESSONS.md` | [3] Memory index + session history |
-| `docs/lessons/` | [3] Accumulated lessons — one per file, one-line summary at top |
-| `docs/architecture.md` | [4] Engineering specification skeleton |
-| `docs/design-decisions.md` | [5] Decision tracking — append-only (open and resolved) |
-| `docs/specs/` | [6] Epic / feature specs (per-workstream scope) |
-| `docs/solutions/` | [10] Compound knowledge — problem → solution pairs (one per file, see TEMPLATE.md) |
-| `docs/harness-engineering-design.md` | Reference design document |
-| `backlog/config.yml` | Backlog.md CLI configuration |
-| `backlog/tasks/` | [7] Per-feature task files with acceptance criteria |
-| `src/` | Implementation code |
-| `tests/test_docs_freshness.py` | Doc-gardening: repo-map references exist on disk; root AGENTS.md stays a pointer |
-| `scripts/memory_status.py` | Dream-due check — lesson count + sessions since last dream (`make memory-status`) |
-| `.github/workflows/harness-checks.yml` | CI: runs harness invariant tests + memory status on every push/PR |
-| `.github/pull_request_template.md` | Evaluator review checklist — enforces generator–evaluator separation per PR |
-| `Makefile` | Common commands (test, lint, format, memory-status) |
-| `LICENSE` | MIT |
+| [AGENTS.md](AGENTS.md) | Root entrypoint autoloaded by Claude Code/Codex — a thin pointer to the initializer prompt (drift-guarded by test). |
+| [.github/copilot-instructions.md](.github/copilot-instructions.md) | [1] AI agent operating guide (autoloaded by Copilot). Session checklist, golden rules, working loop, skill + agent registries. |
+| [.github/skills/](.github/skills) | [8] Reusable agent skills loaded on demand by trigger phrases (backlog, doc-coauthoring, frontend-design, mcp-builder, pdf, pptx, xlsx, docx, claude-api, webapp-testing, blog-editor, codebase-to-course, office-hours, autoresearch, karpathy-guidelines, unslop, observe, learn, instincts, evolve, skill-creator, …). Full registry in copilot-instructions.md, enforced by test. |
+| [.github/skills/bootstrap/](.github/skills/bootstrap/SKILL.md) | Apply the template to a new project — interview, fill placeholders, wire commands, prune skills, seed backlog. |
+| [.github/skills/dream/](.github/skills/dream/SKILL.md) | [11] Memory curation — Dreams-style dedupe/resolve/prune/promote pass over repo memory. |
+| [.github/agents/](.github/agents) | [9] Read-only evaluator agents: [code-reviewer](.github/agents/code-reviewer.agent.md), [security-reviewer](.github/agents/security-reviewer.agent.md), [architecture-reviewer](.github/agents/architecture-reviewer.agent.md). |
+| [.github/instincts/project.yaml](.github/instincts/project.yaml) | [10] Confidence-scored learned patterns (managed by `learn` / `instincts` / `evolve` skills). |
+| [.github/workflows/harness-checks.yml](.github/workflows/harness-checks.yml) | CI: runs harness invariant tests + memory status on every push/PR. |
+| [.github/pull_request_template.md](.github/pull_request_template.md) | Evaluator review checklist — enforces generator–evaluator separation per PR. |
+| [docs/AGENTS.md](docs/AGENTS.md) | [2] Repository map for AI agents (~150 lines — a map, not a manual). |
+| [docs/LESSONS.md](docs/LESSONS.md) | [3] Memory index + session history. |
+| [docs/lessons/](docs/lessons) | [3] Accumulated lessons — one per file, one-line summary at top (see [TEMPLATE.md](docs/lessons/TEMPLATE.md)). |
+| [docs/architecture.md](docs/architecture.md) | [4] Engineering specification skeleton. |
+| [docs/design-decisions.md](docs/design-decisions.md) | [5] Decision tracking — append-only (open and resolved). |
+| [docs/specs/](docs/specs) | [6] Epic / feature specs (per-workstream scope). Copy [EPIC-TEMPLATE.md](docs/specs/EPIC-TEMPLATE.md) to start one. |
+| [docs/solutions/](docs/solutions) | [10] Compound knowledge — problem → solution pairs, one per file (see [TEMPLATE.md](docs/solutions/TEMPLATE.md)). |
+| [docs/harness-engineering-design.md](docs/harness-engineering-design.md) | Reference design document explaining the 11 roles. |
+| [backlog/config.yml](backlog/config.yml) | Backlog.md CLI configuration. |
+| [backlog/tasks/](backlog/tasks) | [7] Per-feature task files with acceptance criteria. Edit only via the `backlog` CLI. |
+| [src/](src) | Implementation code. |
+| [tests/test_docs_freshness.py](tests/test_docs_freshness.py) | Doc-gardening: repo-map references exist on disk; root AGENTS.md stays a pointer; skill/agent registries match disk. Fails CI on drift. |
+| [scripts/memory_status.py](scripts/memory_status.py) | Dream-due check — lesson count + sessions since last dream (`make memory-status`). |
+| [Makefile](Makefile) | Common commands (`make test`, `make lint`, `make format`, `make memory-status`). |
+| [LICENSE](LICENSE) | MIT |
 
 ## Usage
 
@@ -58,11 +60,13 @@ irrelevant carry-along skills, seeds the backlog, and verifies with
 
 Manual path, if you prefer:
 
-1. Update `<!-- YOUR PROJECT NAME -->` placeholders in all docs
-2. Update `backlog/config.yml` with your project name
-3. Add your build/lint/test commands to the `Makefile` and `copilot-instructions.md`
-4. Add project-specific golden rules to `copilot-instructions.md`
-5. Start your first session. The compound step will build project-specific knowledge automatically.
+1. Replace `<!-- YOUR PROJECT NAME -->` and `<!-- One-line description -->` placeholders in [.github/copilot-instructions.md](.github/copilot-instructions.md) and [docs/AGENTS.md](docs/AGENTS.md).
+2. Update [backlog/config.yml](backlog/config.yml) with your project name.
+3. Wire real commands into [Makefile](Makefile) (`test`, `lint`, `format`) and the build/run section of [docs/AGENTS.md](docs/AGENTS.md).
+4. Add project-specific golden rules to [.github/copilot-instructions.md](.github/copilot-instructions.md).
+5. Prune the [.github/skills/](.github/skills) you don't need — the template ships 25+; most projects use a handful. Update the skill registry in copilot-instructions.md to match (the registry test enforces sync).
+6. Run `make test` to confirm the harness invariant tests pass against your edits.
+7. Start your first session. The Compound step will accumulate project-specific knowledge automatically.
 
 ## Philosophy
 
