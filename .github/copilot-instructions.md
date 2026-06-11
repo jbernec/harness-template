@@ -31,6 +31,7 @@ frontmatter `description`.
 | [backlog](.github/skills/backlog/SKILL.md) | Any task involving the Backlog.md CLI — create/edit/view tasks, acceptance criteria, status changes. |
 | [frontend-design](.github/skills/frontend-design/SKILL.md) | Building or styling web components, pages, dashboards, landing pages. |
 | [office-hours](.github/skills/office-hours/SKILL.md) | New product ideas, "is this worth building?", brainstorming, design-doc kickoff. Invoke proactively before writing code for a new concept. |
+| [dream](.github/skills/dream/SKILL.md) | Memory curation — consolidate/dedupe lessons, solutions, instincts. Run when the lesson index exceeds ~20 entries, on duplicate/contradictory lessons, or every ~10 sessions. |
 
 ---
 
@@ -77,10 +78,13 @@ When in doubt, prefer **failing fast with a descriptive error** over silent fall
 5) **Compound (after meaningful work cycles)**
    Before ending a session or closing a task, answer these questions:
    - **What worked?** Record the pattern so it can be reused.
-   - **What broke or was harder than expected?** Add a pitfall entry to `docs/LESSONS.md`.
+   - **What broke or was harder than expected?** Add a lesson file under `docs/lessons/` (one lesson per file — copy `docs/lessons/TEMPLATE.md`) and index it in `docs/LESSONS.md`.
    - **Would the system catch this automatically next time?** If not, add a test, a linter rule, or a convention to `docs/AGENTS.md`. Turning a lesson into a mechanical check is the highest-value compound action.
 
    Prioritize findings: **P1** (must fix now), **P2** (should fix soon), **P3** (nice to have).
+
+6) **Dream (periodically — memory curation)**
+   Writes in step 5 are local and incremental; over many sessions memory accumulates duplicates, contradictions, and stale entries. When the lesson index exceeds ~20 entries, you notice duplicates/contradictions, or ~10 sessions have passed since the last dream: run the **dream skill** (`.github/skills/dream/SKILL.md`) as its own session. Dreams curate on a branch for human review — never rewrite memory destructively in place.
 
 ---
 
@@ -119,10 +123,12 @@ backlog task edit 42 -s Done                       # Mark done
 
 Keep docs accurate without creating duplication drift.
 
-### Update `docs/LESSONS.md` when
-- You discover a **new pitfall** that would save future time
-- You resolve a tricky issue and want a short "don't repeat this" entry
-- You want a concise session summary of impactful changes
+### Update memory (`docs/lessons/` + `docs/LESSONS.md`) when
+- You discover a **new pitfall** that would save future time → new file in `docs/lessons/` (one lesson per file, copy `docs/lessons/TEMPLATE.md`) + index line in `docs/LESSONS.md`
+- An existing lesson recurs or needs correction → **update that file**; never create a near-duplicate
+- A lesson turns out to be wrong → **delete the file** and its index line (git history preserves it)
+- You want a concise session summary of impactful changes → Session History in `docs/LESSONS.md`
+- Memory has accumulated cruft → run the **dream** skill; don't hand-curate ad hoc
 
 ### Update `docs/AGENTS.md` when
 - Repo structure changes (new directories, moved files)

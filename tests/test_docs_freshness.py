@@ -13,15 +13,20 @@ def _extract_backtick_paths(text: str) -> list[str]:
 
 
 def _extract_tree_paths(text: str) -> list[str]:
-    """Extract paths from ASCII tree diagrams."""
+    """Extract full paths from ASCII tree diagrams, resolving nesting by indent."""
     paths = []
+    stack: list[str] = []
     for line in text.splitlines():
-        m = re.search(r"[├└]── (.+?)(?:\s{2,}#|$)", line)
-        if m:
-            name = m.group(1).strip().rstrip("/")
-            if name.startswith("(") or name == "...":
-                continue
-            paths.append(name)
+        m = re.match(r"([│ ]*)[├└]── (.+?)(?:\s{2,}#.*)?$", line)
+        if not m:
+            continue
+        depth = len(m.group(1)) // 4
+        name = m.group(2).strip().rstrip("/")
+        if name.startswith("(") or name == "...":
+            continue
+        stack = stack[:depth]
+        stack.append(name)
+        paths.append("/".join(stack))
     return paths
 
 
@@ -48,8 +53,8 @@ def test_agents_md_backtick_paths_exist():
     )
 
 
-def test_agents_md_tree_top_level_dirs_exist():
-    """Top-level directories listed in AGENTS.md tree should exist."""
+def test_agents_md_tree_paths_exist():
+    """Every path listed in the AGENTS.md tree diagram should exist on disk."""
     agents_md = ROOT / "docs" / "AGENTS.md"
     if not agents_md.exists():
         return

@@ -6,12 +6,15 @@ A GitHub template repository for bootstrapping AI-native projects with a structu
 
 | File / Directory | Purpose |
 |------|---------|
-| `.github/copilot-instructions.md` | [1] AI agent operating guide (autoloaded). Session checklist, golden rules, working loop. |
-| `.github/skills/` | [8] Reusable AI agent skills (backlog, blog-editor, frontend-design) |
+| `AGENTS.md` | Root entrypoint autoloaded by Claude Code/Codex — points at the initializer prompt |
+| `.github/copilot-instructions.md` | [1] AI agent operating guide (autoloaded by Copilot). Session checklist, golden rules, working loop. |
+| `.github/skills/` | [8] Reusable AI agent skills (backlog, blog-editor, frontend-design, office-hours) |
+| `.github/skills/dream/` | [11] Memory curation — Dreams-style dedupe/prune/promote pass over repo memory |
 | `.github/agents/` | [9] Evaluator agents (code-reviewer, security-reviewer, architecture-reviewer) |
 | `.github/instincts/project.yaml` | [10] Confidence-scored learned patterns |
 | `docs/AGENTS.md` | [2] Repository map for AI agents (~150 lines, a map not a manual) |
-| `docs/LESSONS.md` | [3] Accumulated knowledge and session history |
+| `docs/LESSONS.md` | [3] Memory index + session history |
+| `docs/lessons/` | [3] Accumulated lessons — one per file, one-line summary at top |
 | `docs/architecture.md` | [4] Engineering specification skeleton |
 | `docs/design-decisions.md` | [5] Decision tracking — append-only (open and resolved) |
 | `docs/specs/` | [6] Epic / feature specs (per-workstream scope) |
@@ -56,16 +59,25 @@ This harness follows principles from:
 - **Compound Engineering (Every)**: Plan, Work, Review, Compound. Each unit of work makes subsequent work easier.
 - **Anthropic Design Principles**: Workflows over agents. Start simple, add complexity only when measured improvement justifies it.
 
-### The 5-Step Working Loop
+### The Working Loop
 
 ```
 Plan → Implement → Validate → Document → Compound → Repeat
+                                              │
+              every ~10 sessions:           Dream
+                              (curate memory: dedupe, prune, promote)
 ```
 
-The **Compound** step (step 5) is what separates this from traditional development:
+The **Compound** step is what separates this from traditional development:
 - What worked? (Pattern to reuse)
-- What broke? (Pitfall to record in LESSONS.md)
+- What broke? (Lesson file in `docs/lessons/`, indexed in LESSONS.md)
 - Would the system catch this next time? (If not, add a test or linter rule)
+
+The **Dream** step keeps compounded memory true. Inspired by Anthropic's
+[Dreams API](https://platform.claude.com/docs/en/managed-agents/dreams): a periodic
+curation session merges duplicate lessons, resolves contradictions toward the
+most recent value, prunes stale entries, and promotes mature patterns into
+skills or mechanical checks — on a branch, merged after human review.
 
 ### Key Principles
 
@@ -74,6 +86,7 @@ The **Compound** step (step 5) is what separates this from traditional developme
 - **P1/P2/P3 prioritization** for all findings
 - **Fail fast with descriptive errors** over silent fallbacks
 - **Each session compounds** by capturing learnings mechanically
+- **Memory is curated, not just appended** — periodic dream sessions keep it deduplicated, current, and small
 
 ## Requirements
 

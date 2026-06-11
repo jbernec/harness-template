@@ -37,12 +37,15 @@ Before making changes, read these files in order:
 
 ```
 your-project/
+├── AGENTS.md                            # Root entrypoint (Claude Code/Codex autoload)
 ├── .github/                             # Agent configuration (auto-loaded)
 │   ├── copilot-instructions.md          # [1] Initializer prompt
 │   ├── skills/                          # [8] Domain skills
 │   │   ├── backlog/SKILL.md
 │   │   ├── blog-editor/SKILL.md
-│   │   └── frontend-design/SKILL.md
+│   │   ├── frontend-design/SKILL.md
+│   │   ├── office-hours/SKILL.md
+│   │   └── dream/SKILL.md               # [11] Memory curation
 │   ├── agents/                          # [9] Evaluator agents
 │   │   ├── code-reviewer.agent.md
 │   │   ├── security-reviewer.agent.md
@@ -51,7 +54,9 @@ your-project/
 │       └── project.yaml
 ├── docs/                                # Project knowledge base
 │   ├── AGENTS.md                        # [2] Repo map (this file)
-│   ├── LESSONS.md                       # [3] Progress file
+│   ├── LESSONS.md                       # [3] Memory index + session history
+│   ├── lessons/                         # [3] One lesson per file
+│   │   └── TEMPLATE.md
 │   ├── architecture.md                  # [4] System spec
 │   ├── design-decisions.md              # [5] Decision log (append-only)
 │   ├── harness-engineering-design.md    # Harness design reference

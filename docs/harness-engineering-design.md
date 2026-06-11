@@ -85,14 +85,14 @@ The solution is a **layered harness**: structured files checked into the repo th
 
 ### 3. Progress File
 
-**File:** `docs/LESSONS.md` or `docs/progress.md`
+**File:** `docs/LESSONS.md` (index + session history) + `docs/lessons/` (one lesson per file)
 
-**What it is:** Running log of what happened across sessions. Equivalent to Anthropic's `claude-progress.txt`.
+**What it is:** Running log of what happened across sessions. Equivalent to Anthropic's `claude-progress.txt`, with the lesson content split out per Anthropic's file-based memory guidance: **one lesson per file with a one-line summary at the top**, update rather than duplicate, delete entries that turn out to be wrong.
 
 **What it holds:**
-- **Pitfalls** — "don't repeat this" entries
-- **Architecture Decisions** — brief rationale for choices made (supplements the Decision Log)
-- **Session History** — per-session summaries: what was accomplished, key insights, status at end, what's next
+- **Lesson Index** — one line per `docs/lessons/*.md` file, used for recall
+- **Pitfalls** — "don't repeat this" entries, one per file under `docs/lessons/`
+- **Session History** — per-session summaries: what was accomplished, key insights, status at end, what's next (architecture decisions belong in the Decision Log, not here)
 
 **Why it matters:** When an agent reads this, it knows what was tried, what failed, and where to pick up. Prevents the failure mode where an agent spends tokens rediscovering solved problems.
 
@@ -236,12 +236,36 @@ backlog/tasks/      Per task             "What's the acceptance criteria for thi
 
 ---
 
+### 11. Memory Curation ("Dreams")
+
+**File:** `.github/skills/dream/SKILL.md`
+
+**What it is:** A periodic curation pass over all memory surfaces, modeled on Anthropic's [Dreams API](https://platform.claude.com/docs/en/managed-agents/dreams) (Managed Agents, launched May 2026). Components [3] and [10] are *write* surfaces — local and incremental. Over many sessions they accumulate duplicates, contradictions, and stale entries. A dream reads the memory surfaces plus recent session history and produces a reorganized memory set.
+
+**What it does:**
+- **Merges duplicates** — recurring pitfalls collapse into one lesson carrying the union of evidence
+- **Resolves contradictions** — most recent value wins, with the Decision Log as the authority
+- **Prunes stale entries** — lessons referencing removed code, retired tooling, or reversed decisions
+- **Promotes mature knowledge** — instinct → skill, recurring solution → instinct, lesson → mechanical check (test/lint rule)
+- **Surfaces cross-session patterns** — recurring mistakes, converged workflows, and unwritten conventions that no single session could see
+
+**Safety properties (copied from the Dreams API):** inputs are never destroyed in place — curation happens on a branch and is merged after human review; the Decision Log is read-only to the dream; the dream is a synthesis pass, not a line editor.
+
+**Why it matters:** Anthropic's memory model recognizes four layers — in-context, external (files/stores), in-weights, and cache. Most harnesses only *write* to external memory; quality then decays monotonically. Dreaming adds the maintenance layer: memory quality compounds instead of rotting, and reading memory stays cheap because the index stays small and true.
+
+**Trigger:** lesson index > ~20 entries, observed duplicates/contradictions, or ~10 sessions since the last dream. For projects running on Anthropic Managed Agents (cloud memory stores instead of repo files), use the actual Dreams API — the skill file documents both paths.
+
+---
+
 ## Recommended Folder Structure
 
 > File and folder names below are **suggested conventions**, not requirements. Use whatever naming fits your team. The roles (numbered [1]–[10]) are what matter.
 
 ```
 your-project/
+│
+├── AGENTS.md                            # Root entrypoint (auto-loaded by
+│                                        # Claude Code/Codex) → points at [1]
 │
 ├── .github/                             # Agent configuration (auto-loaded)
 │   │
@@ -252,6 +276,8 @@ your-project/
 │   ├── skills/                          # [8] DOMAIN SKILLS
 │   │   ├── <your-domain>/               #     One folder per knowledge area
 │   │   │   └── SKILL.md                 #     Instructions, workflows, pitfalls
+│   │   ├── dream/                       # [11] MEMORY CURATION
+│   │   │   └── SKILL.md                 #      Periodic dedupe/prune/promote pass
 │   │   └── ...
 │   │
 │   ├── agents/                          # [9] EVALUATOR AGENTS
@@ -267,9 +293,13 @@ your-project/
 │   │                                    #     Project identity, build commands,
 │   │                                    #     directory layout, conventions
 │   │
-│   ├── <progress-file>.md               # [3] PROGRESS FILE
-│   │                                    #     Pitfalls, session history,
+│   ├── <progress-file>.md               # [3] PROGRESS FILE (index)
+│   │                                    #     Lesson index, session history,
 │   │                                    #     what happened & what's next
+│   │
+│   ├── lessons/                         # [3] LESSON FILES
+│   │   ├── <one-lesson-per-file>.md     #     One-line summary at top;
+│   │   └── ...                          #     update > duplicate; delete wrong
 │   │
 │   ├── <architecture>.md                # [4] SYSTEM SPEC
 │   │                                    #     Components, data flow,
@@ -366,6 +396,8 @@ your-project/
           └─────────────────────┘
 ```
 
+**Periodically (every ~10 sessions, or when memory accumulates cruft), a dedicated dream session [11] runs instead of a work session:** it reads everything the work sessions wrote — lessons [3], solutions/instincts [10], session history — merges duplicates, resolves contradictions, prunes stale entries, promotes mature patterns into skills [8] or mechanical checks, and delivers the curated memory as a reviewable branch. Work sessions write memory; dream sessions keep it true.
+
 ---
 
 ## Alignment with Anthropic's Research
@@ -386,6 +418,9 @@ your-project/
 | Decision log prevents re-litigation | [5] Decision Log (append-only ADRs) |
 | Skills scoped to domain | [8] Domain Skills loaded on demand by trigger phrases |
 | Compound knowledge across sessions | [10] Compound Knowledge (solutions + instincts) |
+| File-based memory: one lesson per file, update > duplicate, delete wrong | [3] `docs/lessons/` per-file format with one-line summaries |
+| Dreams API: scheduled memory curation (dedupe, resolve, surface patterns) | [11] Memory Curation — dream skill mirroring the Dreams pipeline locally |
+| Dreams never modify inputs; output reviewed before adoption | [11] Dream runs on a branch, merged after human review |
 
 ---
 
@@ -405,6 +440,8 @@ To adopt this pattern in your own repo:
 
 6. **Add skills and evaluator agents as complexity grows.** These are optimizations, not prerequisites.
 
+7. **Schedule your first dream once memory accumulates.** When the lesson index passes ~20 entries (or ~10 sessions in), run a memory-curation session. Unmaintained memory decays into noise that costs context every session; a periodic dream keeps it compounding instead.
+
 The goal is not to fill out every file on day one. Start with the initializer prompt and progress file, then layer in components as the project's complexity demands them.
 
 ---
@@ -417,3 +454,4 @@ The goal is not to fill out every file on day one. Start with the initializer pr
 - **Append-only decisions > editable specs.** Never delete a rejected alternative — the negative constraint is as valuable as the positive one.
 - **Separate generator from evaluator.** The agent doing the work should not judge the work.
 - **Every session should leave the repo better for the next session.** Progress files, git commits, and compound knowledge ensure agents (and humans) build on previous work instead of repeating it.
+- **Memory needs maintenance, not just writes.** Append-only memory decays into duplicates and contradictions. Periodic curation (dreaming) — dedupe, resolve toward the most recent value, prune, promote — is what makes memory compound instead of rot. Curate on a branch; never rewrite memory destructively in place.
